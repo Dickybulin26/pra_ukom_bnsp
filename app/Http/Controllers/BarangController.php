@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 
 class BarangController extends Controller
 {
+    //* menampilkan semua data barang
     /**
      * Summary of index
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
@@ -18,11 +19,13 @@ class BarangController extends Controller
         return view('index', compact('data'));
     }
 
+    //* return view halaman tambah
     public function create()
     {
         return view('tambah');
     }
 
+    //* simpan data barang yang diinput user
     public function store(Request $request)
     {
         try {
@@ -30,36 +33,49 @@ class BarangController extends Controller
                 'namaBarang' => 'required',
                 'stokBarang' => 'required',
                 'hargaBarang' => 'required',
+                'gambarBarang' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
+
+            // $gambarBarang = time() . $request->gambarBarang->extension();
 
             // Buat objek barang dan simpan
             $barang = new Barang();
             $barang->nama = $request->namaBarang;
             $barang->stok = $request->stokBarang;
             $barang->harga = $request->hargaBarang;
+            // $barang->foto = $gambarBarang;
+            if ($request->hasFile('gambarBarang')) {
+                $file = $request->file('gambarBarang');
+                $filename = $file->getClientOriginalName();
+                $file->move(public_path('images'), $filename);
+                $barang->foto = $filename;
+            }
             $barang->save();
 
             $massage = '<script>alert("Data berhasil ditambahkan")</script>';
             return redirect()->route('barang.index')->with('success', $massage);
         } catch (\Throwable $th) {
+            dd($th);
             // Tangani error, bisa menggunakan flash message atau log
             return redirect()->route('barang.tambah')->with('error', "<script>alert('Terjadi kesalahan: " . $th->getMessage() . "')</script>");
         }
     }
 
-
+    //* return view halaman detail
     public function showDetail($id)
     {
         $data = Barang::find($id);
         return view('detail', compact('data'));
     }
 
+    //* return view halaman edit
     public function edit($id)
     {
         $barang = Barang::find($id);
         return view('edit', compact('barang'));
     }
 
+    //* update data barang yang diedit user
     public function update(Request $request, $id)
     {
         try {
@@ -82,6 +98,7 @@ class BarangController extends Controller
     }
 
 
+    //* hapus data barang yang dihapus user
     public function destroy($id)
     {
         $barang = Barang::find($id);

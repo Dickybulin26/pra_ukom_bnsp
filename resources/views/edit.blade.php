@@ -70,6 +70,10 @@
                             <input type="number" class="form-control" value="{{ $barang->harga }}" id="hargaBarang"
                                 name="harga" placeholder="Harga barang" required>
                         </div>
+                        <div class="mb-3">
+                            <label for="gambarBarang" class="form-label">Gambar Barang:</label>
+                            <input type="file" class="form-control" value="{{ $barang->foto }}" id="gambarBarang" name="gambarBarang" required>
+                        </div>
                         <div class="mt-5">
                             <button type="submit" class="btn btn-primary">Edit Barang</button>
                         </div>

@@ -39,6 +39,11 @@
             border-radius: 1rem;
             padding: 1rem;
         }
+
+        img {
+            max-width: 100px;
+            height: 70px;
+        }
     </style>
 </head>
 
@@ -65,6 +70,10 @@
                         <div class="col-6">
                             <label for="hargaBarang" class="form-label">Harga Barang:</label>
                             <p>{{ $data->harga }}</p>
+                        </div>
+                        <div class="col-6">
+                            <label for="gambarBarang" class="form-label">Harga Barang:</label>
+                            <img src="{{ asset('images/' . $data->foto) }}" alt="">
                         </div>
                     </div>
                 </div>

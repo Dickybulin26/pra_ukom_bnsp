@@ -14,15 +14,21 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
 
-<style>
-    * {
-        font-family: 'Poppins', sans-serif;
-    }
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
 
-    body {
-        background-color: #e5eeff;
-    }
-</style>
+        body {
+            background-color: #e5eeff;
+        }
+
+        table tbody .dataGambarBarang {
+            width: 100px;
+            height: 70px !important;
+            object-fit: cover;
+        }
+    </style>
 </head>
 
 <body>
@@ -40,6 +46,7 @@
                     <th scope="col">Nama Barang</th>
                     <th scope="col">harga</th>
                     <th scope="col">stok</th>
+                    <th scope="col">Foto</th>
                     <th scope="col">aksi</th>
                 </tr>
             </thead>
@@ -50,10 +57,12 @@
                         <td>{{ $value->nama }}</td>
                         <td>{{ $value->harga }}</td>
                         <td>{{ $value->stok }}</td>
+                        <td><img src="{{ asset('images/' . $value->foto) }}" class="dataGambarBarang" alt="ini foto"></td>
                         <td>
                             <a href="{{ route('barang.edit', $value->id) }}" class="btn btn-warning mx-2">edit</a>
-                            <a href="{{ route('barang.detail', $value->id) }}" class="btn btn-primary mx-2">view</a>
-                            <a href="{{ route('barang.delete', $value->id) }}" class="btn btn-danger mx-2">delete</a>
+                            <a href="{{ route('barang.detail', $value->id) }}" class="btn btn-primary mx-2">detail</a>
+                            <a href="{{ route('barang.delete', $value->id) }}" class="btn btn-danger mx-2"
+                                onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">delete</a>
                         </td>
                     </tr>
                 @endforeach
@@ -65,9 +74,6 @@
 
 <script src=""></script>
 
-<script>
-
-
-</script>
+<script></script>
 
 </html>

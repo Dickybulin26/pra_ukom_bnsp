@@ -53,7 +53,7 @@
                 </div>
                 <h3 class="card-title text-center my-3 fw-bold">Tambah Barang</h3>
                 <div class="card-body">
-                    <form action="{{ route('barang.store') }}" method="POST">
+                    <form action="{{ route('barang.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
                             <label for="namaBarang" class="form-label">Nama Barang:</label>
@@ -69,6 +69,10 @@
                             <label for="hargaBarang" class="form-label">Harga Barang:</label>
                             <input type="number" class="form-control" id="hargaBarang" name="hargaBarang"
                                 placeholder="Harga barang" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="gambarBarang" class="form-label">Gambar Barang:</label>
+                            <input type="file" class="form-control" id="gambarBarang" name="gambarBarang" required>
                         </div>
                         <div class="mt-5">
                             <button type="submit" class="btn btn-primary">Tambah Barang</button>
