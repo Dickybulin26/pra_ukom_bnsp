@@ -6,15 +6,20 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class tambahData extends TestCase
+class testBarang extends TestCase
 {
     /**
      * A basic feature test example.
      */
-    public function test_example(): void
+    public function testShowListBarang(): void
     {
-        // $response = $this->get('barang.tambah');
+        $response = $this->get('barang.tambah');
 
+        $response->assertStatus(200);
+    }
+
+    public function testTambahData(): void
+    {
         $data = [
             'NamaBarang' => 'Beras',
             'stokBarang' => '5',
@@ -22,7 +27,5 @@ class tambahData extends TestCase
         ];
 
         $response = $this->post('barang.store', $data);
-
-        $response->assertStatus(200);
     }
 }

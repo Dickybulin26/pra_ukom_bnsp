@@ -8,11 +8,13 @@
     <title>tambah barang</title>
 
     {{-- bootstrap --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
+    </script> --}}
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
         * {
@@ -48,31 +50,36 @@
         <div class="main-content">
             <div class="card">
                 <div class="back-button">
-                    <a href="{{ route('barang.index') }}" class="btn btn-secondary" type="button">Kembali</a>
+                    <a href="{{ route('barang.index', $barang->id) }}" class="btn btn-secondary"
+                        type="button">Kembali</a>
                 </div>
                 <h5 class="card-title text-center my-3 fw-bold">Edit Barang</h5>
                 <div class="card-body">
-                    <form action="{{ route('barang.update', $barang->id) }}" method="POST">
+                    <form action="{{ route('barang.update', $barang->id) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
-                        @method('PUT') <!-- Tambahkan ini untuk metode PUT -->
                         <div class="mb-3">
                             <label for="namaBarang" class="form-label">Nama Barang:</label>
                             <input type="text" value="{{ $barang->nama }}" class="form-control" id="namaBarang"
-                                name="nama" placeholder="nama barang" required>
+                                name="namaBarang" placeholder="nama barang" required>
                         </div>
                         <div class="mb-3">
                             <label for="stokBarang" class="form-label">Stok Barang:</label>
                             <input type="number" class="form-control" value="{{ $barang->stok }}" id="stokBarang"
-                                name="stok" placeholder="Jumlah stok" required>
+                                name="stokBarang" placeholder="Jumlah stok" required>
                         </div>
                         <div class="mb-3">
                             <label for="hargaBarang" class="form-label">Harga Barang:</label>
                             <input type="number" class="form-control" value="{{ $barang->harga }}" id="hargaBarang"
-                                name="harga" placeholder="Harga barang" required>
+                                name="hargaBarang" placeholder="Harga barang" required>
                         </div>
                         <div class="mb-3">
                             <label for="gambarBarang" class="form-label">Gambar Barang:</label>
-                            <input type="file" class="form-control" value="{{ $barang->foto }}" id="gambarBarang" name="gambarBarang" required>
+                            <input type="file" class="form-control" value="{{ $barang->foto }}" id="gambarBarang"
+                                name="gambarBarang">
+                        </div>
+                        <div class="mb-3">
+                            <img src="{{ asset('images/' . $barang->foto) }}" alt="" style="width: 5rem">
                         </div>
                         <div class="mt-5">
                             <button type="submit" class="btn btn-primary">Edit Barang</button>

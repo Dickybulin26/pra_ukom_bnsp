@@ -17,20 +17,20 @@ use App\Http\Controllers\BarangController;
 //* halaman utama
 Route::get('/', [BarangController::class, 'index'])->name('barang.index');
 
-//* halaman tambah data barang 
-Route::get('/tambah', [BarangController::class,'create'])->name('barang.tambah');
+//* halaman tambah data barang
+Route::get('/tambah', [BarangController::class, 'create'])->name('barang.tambah');
 
 //* menyimpan data barang yang diinput user
-Route::post('/store', [BarangController::class,'store'])->name('barang.store');
+Route::post('/store', [BarangController::class, 'store'])->name('barang.store');
 
 //* halaman edit data barang
-Route::get('/edit/{id}', [BarangController::class,'edit'])->name('barang.edit');
+Route::get('/edit/{id}', [BarangController::class, 'edit'])->name('barang.edit');
 
 //* menyimpan data barang yang diedit user
-Route::put('/barang/{id}', [BarangController::class, 'update'])->name('barang.update');
+Route::post('/barang/{id}', [BarangController::class, 'update'])->name('barang.update');
 
 // * menghapus data barang yang dipilih
-Route::get('/delete/{id}', [BarangController::class,'destroy'])->name('barang.delete');
+Route::get('/delete/{id}', [BarangController::class, 'destroy'])->name('barang.delete');
 
 // * halaman menampilkan data detail
-Route::get('/detail/{id}', [BarangController::class,'showDetail'])->name('barang.detail');
+Route::get('/detail/{id}', [BarangController::class, 'showDetail'])->name('barang.detail');

@@ -33,23 +33,26 @@ class BarangController extends Controller
                 'namaBarang' => 'required',
                 'stokBarang' => 'required',
                 'hargaBarang' => 'required',
-                'gambarBarang' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'gambarBarang' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
 
-            // $gambarBarang = time() . $request->gambarBarang->extension();
+            $gambarBarang = time() . '.' . $request->gambarBarang->extension();
+            $request->gambarBarang->move(public_path('images'), $gambarBarang);
 
             // Buat objek barang dan simpan
             $barang = new Barang();
             $barang->nama = $request->namaBarang;
             $barang->stok = $request->stokBarang;
             $barang->harga = $request->hargaBarang;
-            // $barang->foto = $gambarBarang;
-            if ($request->hasFile('gambarBarang')) {
-                $file = $request->file('gambarBarang');
-                $filename = $file->getClientOriginalName();
-                $file->move(public_path('images'), $filename);
-                $barang->foto = $filename;
-            }
+
+            // if ($request->hasFile('gambarBarang')) {
+            //     $file = $request->file('gambarBarang');
+            //     $filename = $file->getClientOriginalName();
+            //     $file->move(public_path('images'), $filename);
+            //     $barang->foto = $filename;
+            // }
+
+            $barang->foto = $gambarBarang;
             $barang->save();
 
             $massage = '<script>alert("Data berhasil ditambahkan")</script>';
@@ -80,20 +83,39 @@ class BarangController extends Controller
     {
         try {
             $request->validate([
-                'nama' => 'required',
-                'stok' => 'required',
-                'harga' => 'required',
+                'namaBarang' => 'required',
+                'stokBarang' => 'required',
+                'hargaBarang' => 'required',
+                'gambarBarang' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4096',
             ]);
 
+            $gambarBarang = time() . '.' . $request->gambarBarang->extension();
+            $request->gambarBarang->move(public_path('images'), $gambarBarang);
+
+            //* temukan id barang yang akan diupdate
             $barang = Barang::findOrFail($id);
-            $barang->nama = $request->nama;
-            $barang->stok = $request->stok;
-            $barang->harga = $request->harga;
+
+            //* perbarui data barang
+            $barang->nama = $request->namaBarang;
+            $barang->harga = $request->hargaBarang;
+            $barang->stok = $request->stokBarang;
+            
+            // if ($request->hasFile('gambarBarang')) {
+            //     $file = $request->file('gambarBarang');
+            //     $filename = $file->getClientOriginalName();
+            //     $file->move(public_path('images'), $filename);
+            //     $barang->foto = $filename;
+            // }
+
+            $barang->foto = $gambarBarang;
             $barang->save();
 
-            return redirect()->route('barang.index')->with('success', 'Data berhasil diperbarui');
+            $massage = '<script>alert("Data berhasil ditambahkan")</script>';
+            return redirect()->route('barang.index')->with('success', $massage);
         } catch (\Throwable $th) {
-            return redirect()->route('barang.index')->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
+            dd($th);
+            // Tangani error, bisa menggunakan flash message atau log
+            return redirect()->route('barang.index')->with('error', "<script>alert('Terjadi kesalahan: " . $th->getMessage() . "')</script>");
         }
     }
 
