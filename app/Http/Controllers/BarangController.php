@@ -89,9 +89,6 @@ class BarangController extends Controller
                 'gambarBarang' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4096',
             ]);
 
-            $gambarBarang = time() . '.' . $request->gambarBarang->extension();
-            $request->gambarBarang->move(public_path('images'), $gambarBarang);
-
             //* temukan id barang yang akan diupdate
             $barang = Barang::findOrFail($id);
 
@@ -99,15 +96,14 @@ class BarangController extends Controller
             $barang->nama = $request->namaBarang;
             $barang->harga = $request->hargaBarang;
             $barang->stok = $request->stokBarang;
-            
-            // if ($request->hasFile('gambarBarang')) {
-            //     $file = $request->file('gambarBarang');
-            //     $filename = $file->getClientOriginalName();
-            //     $file->move(public_path('images'), $filename);
-            //     $barang->foto = $filename;
-            // }
 
-            $barang->foto = $gambarBarang;
+            if ($request->hasFile('gambarBarang')) {
+                $file = $request->file('gambarBarang');
+                $filename = time() . '.' . $file->extension();
+                $file->move(public_path('images'), $filename);
+                $barang->foto = $filename;
+            }
+
             $barang->save();
 
             $massage = '<script>alert("Data berhasil ditambahkan")</script>';
